@@ -1,0 +1,72 @@
+[
+  {
+    "Type": "pres",
+    "Year": 2018,
+    "Total": 59
+  },
+  {
+    "Type": "pres",
+    "Year": 2019,
+    "Total": 60
+  },
+  {
+    "Type": "pres",
+    "Year": 2020,
+    "Total": 47
+  },
+  {
+    "Type": "pres",
+    "Year": 2021,
+    "Total": 63
+  },
+  {
+    "Type": "pres",
+    "Year": 2022,
+    "Total": 32
+  },
+  {
+    "Type": "pres",
+    "Year": 2023,
+    "Total": 80
+  },
+  {
+    "Type": "pres",
+    "Year": 2024,
+    "Total": 95
+  },
+  {
+    "Type": "ussec",
+    "Year": 2018,
+    "Total": 200
+  },
+  {
+    "Type": "ussec",
+    "Year": 2019,
+    "Total": 178
+  },
+  {
+    "Type": "ussec",
+    "Year": 2020,
+    "Total": 266
+  },
+  {
+    "Type": "ussec",
+    "Year": 2021,
+    "Total": 217
+  },
+  {
+    "Type": "ussec",
+    "Year": 2022,
+    "Total": 230
+  },
+  {
+    "Type": "ussec",
+    "Year": 2023,
+    "Total": 299
+  },
+  {
+    "Type": "ussec",
+    "Year": 2024,
+    "Total": 256
+  }
+]

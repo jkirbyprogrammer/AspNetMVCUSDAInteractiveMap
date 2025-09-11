@@ -1,0 +1,149 @@
+﻿@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard Demo";
+    string typeDesc = Model.Type == "pres" ? "Presidential Emergency" : "US Secretary of Agriculture";
+}
+<h4>Dashboard Demo</h4>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h5>Interactive map using crop and disaster designation data from USDA at the state/county level.</h5>
+                </div>
+                <div class="text-left">
+                    <ul style="font-size:12px;">
+                        <li>Use the layer option to toggle between state/county level details or change the base layer.</li>
+                        <li>Use Presidential Emergency Declarations/US Secretary of Ag buttons to toggle data in map.</li>
+                        <li>Use the year links to update the map year data set.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a style="margin:5px;" href="/Home/DashboardDemo?year=@Model.Year&type=ussec" class="@(Model.Type == "ussec" ? "btn btn-success btn-MapSelected" : "btn btn-success")">US Secretary of Agriculture</a>
+                <a style="margin:5px;" href="/Home/DashboardDemo?year=@Model.Year&type=pres" class="@(Model.Type == "pres" ? "btn btn-success btn-MapSelected" : "btn btn-success")" aria-current="page">Presidential Emergency Declarations</a>
+            </div>
+            <div>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2019" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2019&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2019" ? true : false)">2019</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2020" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2020&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2020" ? true : false)">2020</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2021" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2021&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2021" ? true : false)">2021</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2022" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2022&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2022" ? true : false)">2022</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2023" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2023&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2023" ? true : false)">2023</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2024" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2024&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2024" ? true : false)">2024</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@(Model.Year == "2025" ? "nav-link link-success disabled" : "nav-link my-text-hover-bolder link-success")"
+                           href="/Home/DashboardDemo?year=2025&type=@Model.Type" tabindex="-1" aria-disabled="@(@Model.Year == "2025" ? true : false)">2025</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="map" style="height:600px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:20px;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5>Yearly US Secretary of Agriculture and Presidential Emergency Declarations.</h5>
+            </div>
+            <div class="card-body">
+                <div style="width:100%;min-height:325px;"><canvas id="myLineChart"></canvas></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px;">
+    <div class="col-lg-6" style="padding-top:10px;">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5>US Sec of Ag Disaster Declarations (Excluding Droughts)</h5>
+            </div>
+            <div class="card-body">
+                <div style="width:100%;min-height:500px;"><canvas id="myChart"></canvas></div>
+                <div class="text-center"><span style="font-size:12px;">*Note: Storms can be tornadoes, hail, flooding, landslides, etc.</span></div>
+                <div class="text-center"><span style="font-size:12px;">*Winter: Storms can be snow, freeze, frost, ice, etc.</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style="padding-top:10px;">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5>Presidential Emergency Declarations</h5>
+            </div>
+            <div class="card-body">
+                <div style="width:100%;min-height:500px;"><canvas id="myChart2"></canvas></div>
+                <div class="text-center"><span style="font-size:12px;">*Note: Storms can be tornadoes, hail, flooding, landslides, etc.</span></div>
+                <div class="text-center"><span style="font-size:12px;">*Winter: Storms can be snow, freeze, frost, ice, etc.</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:20px;">
+    <div class="col-12">
+        Data Sources:
+            <ul>
+                <li>
+                    <a href="https://www.fsa.usda.gov/resources/disaster-assistance-program/disaster-designation-information" target="_blank" >
+                        USDA Disaster Designation Information
+                    </a>
+                </li>
+                <li>
+                    <a href="https://quickstats.nass.usda.gov/" target="_blank" >
+                        USDA Quick Stats Census
+                   </a>
+                </li>
+            </ul>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="~/lib/JavaScript/DashboardDemo.js?v=4.6"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+        var year = '@Model.Year';
+        var type = '@Model.Type';
+        var typeDesc = '@typeDesc';
+        var disasterInt = '@Model.Interval';
+
+        GetMapData(year, type, typeDesc, disasterInt);
+        SetChartVisuals(year, type, typeDesc, disasterInt);
+
+        });
+</script>

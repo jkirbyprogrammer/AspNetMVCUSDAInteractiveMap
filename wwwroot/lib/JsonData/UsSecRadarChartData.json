@@ -1,0 +1,142 @@
+[
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2018,
+    "Total": 6
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2019,
+    "Total": 29
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2020,
+    "Total": 30
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2021,
+    "Total": 17
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2022,
+    "Total": 16
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2023,
+    "Total": 23
+  },
+  {
+    "Type": "frost, freeze, snow, ice",
+    "Year": 2024,
+    "Total": 4
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2018,
+    "Total": 16
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2019,
+    "Total": 3
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2020,
+    "Total": 10
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2021,
+    "Total": 4
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2022,
+    "Total": 2
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2023,
+    "Total": 2
+  },
+  {
+    "Type": "hurricane",
+    "Year": 2024,
+    "Total": 8
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2018,
+    "Total": 46
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2019,
+    "Total": 74
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2020,
+    "Total": 40
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2021,
+    "Total": 44
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2022,
+    "Total": 20
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2023,
+    "Total": 39
+  },
+  {
+    "Type": "tornadoes, hail, flooding, storm, landslides",
+    "Year": 2024,
+    "Total": 59
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2018,
+    "Total": 2
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2019,
+    "Total": 0
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2020,
+    "Total": 1
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2021,
+    "Total": 3
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2022,
+    "Total": 0
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2023,
+    "Total": 0
+  },
+  {
+    "Type": "wildfires",
+    "Year": 2024,
+    "Total": 4
+  }
+]
