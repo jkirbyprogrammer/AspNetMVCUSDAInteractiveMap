@@ -1,4 +1,4 @@
-# ASP.NET Core 8.0 MVC USDA InteractiveMap
+# ASP.NET Core 8.0 MVC USDA Interactive Map
 Dashboard example using ASP.NET Core, C#, JavaScript, HTML, CSS, Bootstrap, JQuery, Chart.js, custom API calls, Leaflet, GeoJSON, and more. Example uses public data from USDA, since they do not have any interactive maps like this. This uses data from 2022 crop census, Disaster Designation Information Made By the US Secretary of Agriculture, Presidential Emergency Declarations, all linked together in a clean interactive web map at county & state level. 
 
 - Project uses data that was pulled from USDA from 2018 to mid 2025: 
