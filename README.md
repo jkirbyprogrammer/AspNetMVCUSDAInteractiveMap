@@ -1,1 +1,22 @@
-# AspNetMVCUSDAInteractiveMap
+# ASP.NET Core 8.0 MVC USDA InteractiveMap
+- Project uses data that was pulled from USDA from 2018 to mid 2025: 
+  - https://www.fsa.usda.gov/resources/disaster-assistance-program/disaster-designation-information
+  - USDA quick stats
+- Live version of this dashboard:
+  - https://jordankirbyaspnetcore-dashboard-b4hgewasfycpc0a6.centralus-01.azurewebsites.net/Home/DashboardDemo
+- Application Details:
+  - ASP.NET Core v8
+  - C# v12
+  - JQuery v3.6.0
+  - Bootstrap v5.1.0
+  - Leaflet v1.9.4
+  - Chart.js
+  - GeoJSON.NET v1.4.1
+  - NetTopologySuite v2.6.0
+  - NetTopologySuite.IO.GeoJSON v4.0.0
+  - CsvHelper v33.1.0
+  - CSS
+  - JavaScript
+  - CSS
+  - HTML5
+- NOTE: The API calls included in this project include ones used to create the jSON for both Chart.js and Leaflet map. In an Enterprise environment these API calls would be best set up in microservice architecture using RESTful API calls.  
