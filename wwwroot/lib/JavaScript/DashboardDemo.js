@@ -49,13 +49,13 @@ function highlightFeature(e) {
         fillOpacity: 0.8
     });
     layer.bringToFront();
-    info.update(layer.feature.properties);
+    //info.update(layer.feature.properties);
 }
 
 function onEachFeatureCounty(feature, layer) {
     layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlightCounty,
+        //mouseover: highlightFeature,
+        //mouseout: resetHighlightCounty,
         click: zoomToFeature
     });
 }
@@ -67,21 +67,33 @@ function onEachFeatureState(feature, layer) {
         mouseout: resetHighlightStates,
         click: zoomToFeature
     });
+
 }
 
 function resetHighlightCounty(e) {
     geojsonCounties.resetStyle(e.target);
-    info.update();
+    //info.update();
 }
 
 
 function resetHighlightStates(e) {
     geojsonStates.resetStyle(e.target);
-    info.update();
+    //info.update();
 }
 
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    var props = e.target.feature.properties;
+    var content = '<div style="font-size:12px;padding-bottom:10px;">' + 'US Secretary of Ag' + '</div>' + (props ?
+        '<div><b>State/County/City/Place: </b>' + props.name
+        + '<div><b>Total Emergency Declarations: </b>' + props.TotalPresDecs + '</div><div>'
+        + '<div><b>Declared Disasters: </b>' + props.ListOfDisasters + '</div><div>'
+        + (props.DecsWithCrops ? '<div><b>Total crop production types: </b>' + props.DecsWithCrops + '</div><div>'
+            + '<div><b>Crop Details: </b><small>' + props.CropDetailList + '</small></div><div>'
+            : '')
+        : e.target.feature.properties.name);
+
+    //map.fitBounds(e.target.getBounds());
+    e.target.bindPopup(content);
 }
 
 function getColor(d) {
@@ -102,6 +114,10 @@ function style(feature) {
         fillOpacity: 0.7
     };
 }
+
+var popup = L.popup();
+
+
 
 function GetMapData(year, type, typeDesc, disasterInt) {
     $.get("/api/GetCountyGeoJson", { year: year, type: type }, function (apiCountyData, status) {
@@ -140,18 +156,6 @@ function GetMapData(year, type, typeDesc, disasterInt) {
                 return this._div;
             };
 
-            info.update = function (props) {
-
-                this._div.innerHTML = '<div style="font-size:12px;padding-bottom:10px;">' + typeDesc + '</div>' + (props ?
-                    '<div><b>State/County/City/Place: </b>' + props.name
-                    + '<div><b>Total Emergency Declarations: </b>' + props.TotalPresDecs + '</div><div>'
-                    + '<div><b>Declared Disasters: </b>' + props.ListOfDisasters + '</div><div>'
-                    + (props.DecsWithCrops ? '<div><b>Total crop production types: </b>' + props.DecsWithCrops + '</div><div>'
-                        + '<div><b>Crop Details: </b>' + props.CropDetailList + '</div><div>'
-                        : '')
-                    : 'Hover/Click on state or county for details. Use layer selection to toggle layers (Default selects both having county as primary layer).');
-            };
-
             var legend = L.control({ position: 'bottomleft' });
             legend.onAdd = function (map) {
 
@@ -175,7 +179,6 @@ function GetMapData(year, type, typeDesc, disasterInt) {
             };
 
             layerControl.addTo(map);
-            info.addTo(map);
             legend.addTo(map);
         });
 
