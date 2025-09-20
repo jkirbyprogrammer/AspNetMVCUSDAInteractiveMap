@@ -114,7 +114,7 @@ function GetMapData(year, type, typeDesc, disasterInt) {
                         if (feature.properties) {
                             var content = '<div><b>Fire Name: </b>' + feature.properties.FIRENAME + '</div>' +
                                 '<div><b>Fire Year: </b>' + feature.properties.FIREYEAR + '</div>' +
-                                'div><b>Fire Discover Date: </b>' + feature.properties.FIREDISC + '</div>' +
+                                '<div><b>Fire Discover Date: </b>' + feature.properties.FIREDISC + '</div>' +
                                 '<div><b>Fire Out Date: </b>' + feature.properties.FIREOUTDATETIME + '</div>' +
                                 '<div><b>Acres Burned: </b>' + feature.properties.ACERBURN + '</div>' +
                                 '<div><b>Fire Cause: </b>' + feature.properties.STATCAUSE + '</div>';
@@ -366,31 +366,29 @@ function SetLineChart() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        pointLabels: {
-                            color: 'white' // Change point label color to red
-                        },
-                        grid:
-                        {
-                            color: 'white'
-                        },
-                        ticks:
-                        {
-                            color: 'white',
-                            backdropColor: '#212529'
-                        },
-                        angleLines:
-                        {
-                            color: 'white'
-                        }
-                    }
-                },
                 plugins: {
                     legend: {
                         display: true,
                         position: 'bottom',
                         labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'white',
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'white',
+                        },
+                        ticks: {
                             color: 'white'
                         }
                     }
