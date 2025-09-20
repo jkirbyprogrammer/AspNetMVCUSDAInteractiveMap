@@ -21,5 +21,4 @@ Dashboard example using ASP.NET Core, C#, JavaScript, HTML, CSS, Bootstrap, JQue
   - JavaScript
   - HTML5
 - NOTE: The API calls included in this project include ones used to create the jSON for both Chart.js and Leaflet map. In an Enterprise environment these API calls would be best set up in microservice architecture using RESTful API calls.
-- I will have 2 more code repositories soon for this same example. One will be a React version and the other will be in Angular. 
 
