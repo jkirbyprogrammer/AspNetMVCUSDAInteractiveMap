@@ -28,6 +28,10 @@
                 return "UsSecRadarChartData.json";
         }
 
+        public static string GetFirePointsFileName(string year)
+        {
+            return (year == "2025" ? "2024NationalUSFSFireOccurrencePoint.json" : year + "NationalUSFSFireOccurrencePoint.json");
+        }
 
 
     }

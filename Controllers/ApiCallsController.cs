@@ -45,6 +45,17 @@ namespace AspNetMVCUSDAInteractiveMap.Controllers
             return Ok(jsonStateResults);
         }
 
+        [HttpGet]
+        [Route("/api/GetFireData")]
+        public IActionResult GetFireData(string year = "year")
+        {
+            var fireFilePath = _hostingEnvironment.WebRootPath + "/lib/JsonData/" + FunctionHelper.GetFirePointsFileName(year);
+            USDAGeoJsonModel uSDAGeoJsonModel = new(year, fireFilePath);
+            string jsonStateResults = uSDAGeoJsonModel.GetGeoJson();
+
+            return Ok(jsonStateResults);
+        }
+
 
         [HttpGet]
         [Route("/api/GetLineChartData")]

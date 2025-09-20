@@ -1,24 +1,24 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .my-text-hover-bolder {
@@ -63,4 +63,52 @@ body {
 
 .btn-success:hover {
     background-color: #194f2d;
+}
+
+.map-heading {
+    color: white;
+}
+
+.map-details {
+    padding-bottom: 10px;
+}
+
+.btn-MapSelected {
+    background-color: #194f2d !important;
+}
+
+.btn-success:hover {
+    background-color: #194f2d !important;
+}
+
+.active {
+    color: #77CC39 !important;
+    font-weight: 800 !important;
+}
+
+.nav-link {
+    color: #77CC39 !important;
+}
+
+    .nav-link:hover {
+        color: #087239 !important;
+    }
+
+.map-detail-list {
+    color: white;
+    text-align: left;
+    font-size: small;
+}
+
+    .map-detail-list ul {
+        margin: 0;
+    }
+
+.circle {
+    width: 16px;
+    height: 16px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background: #FDA50F;
 }

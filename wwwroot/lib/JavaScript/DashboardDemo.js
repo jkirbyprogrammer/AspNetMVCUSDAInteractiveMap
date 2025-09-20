@@ -24,77 +24,20 @@ var info = L.control();
 
 function getColorCounty(totalDecs, totalDecsWithCrops) {
     return totalDecs > 0 && totalDecsWithCrops > 0 ? 'red' :
-        totalDecs > 0 ? 'orange' :
+        totalDecs > 0 ? '#5E87E8' :
             '#FFFFFF00';
 }
 
 function countyStyle(feature) {
     return {
         fillColor: getColorCounty(feature.properties.TotalPresDecs, feature.properties.DecsWithCrops),
-        weight: .7,
-        opacity: 1,
-        color: 'grey',
-        dashArray: '3',
+        weight: .6,
+        opacity: .5,
+        color: "black",
         fillOpacity: 0.7
     };
 }
 
-
-function highlightFeature(e) {
-    var layer = e.target;
-    layer.setStyle({
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.8
-    });
-    layer.bringToFront();
-    //info.update(layer.feature.properties);
-}
-
-function onEachFeatureCounty(feature, layer) {
-    layer.on({
-        //mouseover: highlightFeature,
-        //mouseout: resetHighlightCounty,
-        click: zoomToFeature
-    });
-}
-
-
-function onEachFeatureState(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlightStates,
-        click: zoomToFeature
-    });
-
-}
-
-function resetHighlightCounty(e) {
-    geojsonCounties.resetStyle(e.target);
-    //info.update();
-}
-
-
-function resetHighlightStates(e) {
-    geojsonStates.resetStyle(e.target);
-    //info.update();
-}
-
-function zoomToFeature(e) {
-    var props = e.target.feature.properties;
-    var content = '<div style="font-size:12px;padding-bottom:10px;">' + 'US Secretary of Ag' + '</div>' + (props ?
-        '<div><b>State/County/City/Place: </b>' + props.name
-        + '<div><b>Total Emergency Declarations: </b>' + props.TotalPresDecs + '</div><div>'
-        + '<div><b>Declared Disasters: </b>' + props.ListOfDisasters + '</div><div>'
-        + (props.DecsWithCrops ? '<div><b>Total crop production types: </b>' + props.DecsWithCrops + '</div><div>'
-            + '<div><b>Crop Details: </b><small>' + props.CropDetailList + '</small></div><div>'
-            : '')
-        : e.target.feature.properties.name);
-
-    //map.fitBounds(e.target.getBounds());
-    e.target.bindPopup(content);
-}
 
 function getColor(d) {
     return d >= (4 * currentInterval) ? '#011a08' :
@@ -108,9 +51,9 @@ function style(feature) {
     return {
         fillColor: getColor(feature.properties.TotalPresDecs),
         weight: 2,
+        weight: 1.5,
         opacity: 1,
-        color: 'white',
-        dashArray: '3',
+        color: "black",
         fillOpacity: 0.7
     };
 }
@@ -122,66 +65,124 @@ var popup = L.popup();
 function GetMapData(year, type, typeDesc, disasterInt) {
     $.get("/api/GetCountyGeoJson", { year: year, type: type }, function (apiCountyData, status) {
         $.get("/api/GetStateGeoJson", { year: year, type: type }, function (apiStateData, status) {
-            statesData = JSON.parse(apiStateData);
-            countyData = JSON.parse(apiCountyData);
-            currentInterval = disasterInt;
+            $.get("/api/GetFireData", { year: year }, function (apiFirePointsData, status) {
 
-            geojsonStates = L.geoJson(statesData, {
-                style: style,
-                onEachFeature: onEachFeatureState
-            }).addTo(map);
+                statesData = JSON.parse(apiStateData);
+                countyData = JSON.parse(apiCountyData);
+                fireData = JSON.parse(apiFirePointsData);
+                currentInterval = disasterInt;
+
+                geojsonStates = L.geoJson(statesData, {
+                    style: style,
+                    onEachFeature: function (feature, layer) {
+                        if (feature.properties) {
+                            var props = feature.properties;
+                            var content = '<div style="font-size:12px;padding-bottom:10px;">' + 'US Secretary of Ag' + '</div>' + (props ?
+                                '<div><b>State: </b>' + props.name
+                                + '<div><b>Total Emergency Declarations: </b>' + props.TotalPresDecs + '</div><div>'
+                                + '<div><b>Declared Disasters: </b>' + props.ListOfDisasters + '</div><div>'
+                                + (props.DecsWithCrops ? '<div><b>Total crop production types: </b>' + props.DecsWithCrops + '</div><div>'
+                                    + '<div><b>Crop Details: </b><small>' + props.CropDetailList + '</small></div><div>'
+                                    : '')
+                                : feature.properties.name);
+                            layer.bindPopup(content);
+                        }
+                    }
+                }).addTo(map);
 
 
-            geojsonCounties = L.geoJson(countyData, {
-                style: countyStyle
-                , onEachFeature: onEachFeatureCounty
-            }).addTo(map);
+                geojsonCounties = L.geoJson(countyData, {
+                    style: countyStyle
+                    , onEachFeature: function (feature, layer) {
+                        if (feature.properties) {
+                            var props = feature.properties;
+                            var content = '<div style="font-size:12px;padding-bottom:10px;">' + 'US Secretary of Ag' + '</div>' + (props ?
+                                '<div><b>County/City/Place: </b>' + props.name
+                                + '<div><b>Total Emergency Declarations: </b>' + props.TotalPresDecs + '</div><div>'
+                                + '<div><b>Declared Disasters: </b>' + props.ListOfDisasters + '</div><div>'
+                                + (props.DecsWithCrops ? '<div><b>Total crop production types: </b>' + props.DecsWithCrops + '</div><div>'
+                                    + '<div><b>Crop Details: </b><small>' + props.CropDetailList + '</small></div><div>'
+                                    : '')
+                                : feature.properties.name);
+                            layer.bindPopup(content);
+                        }
+                    }
+                }).addTo(map);
 
-            var baseMaps = {
-                "LightGrayBase": LightGrayBase,
-                "World Imagery": WorldImagery,
-                "Open Street Map": OpenStreetMap
-            };
+                geojsonFirePoints = L.geoJSON(fireData, {
+                    onEachFeature: function (feature, layer) {
+                        if (feature.properties) {
+                            var content = '<div><b>Fire Name: </b>' + feature.properties.FIRENAME + '</div>' +
+                                '<div><b>Fire Year: </b>' + feature.properties.FIREYEAR + '</div>' +
+                                'div><b>Fire Discover Date: </b>' + feature.properties.FIREDISC + '</div>' +
+                                '<div><b>Fire Out Date: </b>' + feature.properties.FIREOUTDATETIME + '</div>' +
+                                '<div><b>Acres Burned: </b>' + feature.properties.ACERBURN + '</div>' +
+                                '<div><b>Fire Cause: </b>' + feature.properties.STATCAUSE + '</div>';
+                            layer.bindPopup(content);
+                        }
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        // You can customize the appearance of the CircleMarker here
+                        return new L.CircleMarker(latlng, {
+                            radius: 7, // Set the radius in pixels
+                            fillColor: "#FDA50F",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                    },
+                }).addTo(map);
 
-            var overlayMaps = {
-                "States": geojsonStates,
-                "Counties": geojsonCounties
-            };
+                var baseMaps = {
+                    "LightGrayBase": LightGrayBase,
+                    "World Imagery": WorldImagery,
+                    "Open Street Map": OpenStreetMap
+                };
 
-            var layerControl = L.control.layers(baseMaps, overlayMaps);
+                var overlayMaps = {
+                    "States": geojsonStates,
+                    "Counties": geojsonCounties,
+                    "Fire Points": geojsonFirePoints
+                };
 
-            info.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'info');
-                this.update();
-                return this._div;
-            };
+                var layerControl = L.control.layers(baseMaps, overlayMaps);
 
-            var legend = L.control({ position: 'bottomleft' });
-            legend.onAdd = function (map) {
+                info.onAdd = function (map) {
+                    this._div = L.DomUtil.create('div', 'info');
+                    this.update();
+                    return this._div;
+                };
 
-                var div = L.DomUtil.create('div', 'info legend'),
-                    grades = [(1 * disasterInt), (2 * disasterInt), (3 * disasterInt), (4 * disasterInt)],
-                    labels = [];
+                var legend = L.control({ position: 'bottomleft' });
+                legend.onAdd = function (map) {
 
-                div.innerHTML += '<div>State Disasters</div>'
+                    var div = L.DomUtil.create('div', 'info legend'),
+                        grades = [(1 * disasterInt), (2 * disasterInt), (3 * disasterInt), (4 * disasterInt)],
+                        labels = [];
 
-                for (var i = 0; i < grades.length; i++) {
-                    div.innerHTML +=
-                        '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? (disasterInt > 1 ? (' - ' + (grades[i + 1] - 1)) : '') + '<br>' : '+');
-                }
+                    div.innerHTML += '<div>State Disasters</div>'
 
-                div.innerHTML += '<div style="padding-top:10px;">County Level (2022 Census)</div>';
-                div.innerHTML += '<i style="background:red"></i>Crop Production <br>';
-                div.innerHTML += '<i style="background:orange"></i>No Crop Production<br>';
+                    for (var i = 0; i < grades.length; i++) {
+                        div.innerHTML +=
+                            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                            grades[i] + (grades[i + 1] ? (disasterInt > 1 ? (' - ' + (grades[i + 1] - 1)) : '') + '<br>' : '+');
+                    }
 
-                return div;
-            };
+                    div.innerHTML += '<div style="padding-top:10px;">County Level (2022 Census)</div>';
+                    div.innerHTML += '<i style="background:red"></i>Crop Production <br>';
+                    div.innerHTML += '<i style="background:#5E87E8"></i>No Crop Production<br>';
 
-            layerControl.addTo(map);
-            legend.addTo(map);
+                    div.innerHTML += '<div class="row mt-2"> <div class="col-2"><div class="circle"></div></div> <div class="col-10">USFS Fire Orgins</div> </div>'
+
+                    return div;
+                };
+
+                layerControl.addTo(map);
+                legend.addTo(map);
+            });
+
         });
-
     });
 }
 
@@ -271,7 +272,7 @@ function SetRadarChartData(type, chartName) {
             ]
         };
 
-        new Chart(ctx, {
+        var chart1 = new Chart(ctx, {
             type: 'radar',
             data: data,
             options: {
@@ -282,16 +283,40 @@ function SetRadarChartData(type, chartName) {
                         borderWidth: 3
                     }
                 },
+                scales: {
+                    r: {
+                        pointLabels: {
+                            color: 'white' // Change point label color to red
+                        },
+                        grid:
+                        {
+                            color: 'white'
+                        },
+                        ticks:
+                        {
+                            color: 'white',
+                            backdropColor: '#212529'
+                        },
+                        angleLines:
+                        {
+                            color: 'white'
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            color: 'white'
+                        }
                     }
                 }
             }
         });
 
     });
+
 
 }
 
@@ -341,10 +366,33 @@ function SetLineChart() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        pointLabels: {
+                            color: 'white' // Change point label color to red
+                        },
+                        grid:
+                        {
+                            color: 'white'
+                        },
+                        ticks:
+                        {
+                            color: 'white',
+                            backdropColor: '#212529'
+                        },
+                        angleLines:
+                        {
+                            color: 'white'
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            color: 'white'
+                        }
                     }
                 }
             }
