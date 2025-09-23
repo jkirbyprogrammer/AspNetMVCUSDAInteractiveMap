@@ -114,10 +114,10 @@ function GetMapData(year, type, typeDesc, disasterInt) {
                         if (feature.properties) {
                             var content = '<div><b>Fire Name: </b>' + feature.properties.FIRENAME + '</div>' +
                                 '<div><b>Fire Year: </b>' + feature.properties.FIREYEAR + '</div>' +
-                                '<div><b>Fire Discover Date: </b>' + feature.properties.FIREDISC + '</div>' +
+                                '<div><b>Fire Discover Date: </b>' + feature.properties.DISCOVERYDATETIME + '</div>' +
                                 '<div><b>Fire Out Date: </b>' + feature.properties.FIREOUTDATETIME + '</div>' +
-                                '<div><b>Acres Burned: </b>' + feature.properties.ACERBURN + '</div>' +
-                                '<div><b>Fire Cause: </b>' + feature.properties.STATCAUSE + '</div>';
+                                '<div><b>Acres Burned: </b>' + feature.properties.TOTALACRES + '</div>' +
+                                '<div><b>Fire Cause: </b>' + feature.properties.STATCAUSE + '</div>'; 
                             layer.bindPopup(content);
                         }
                     },
